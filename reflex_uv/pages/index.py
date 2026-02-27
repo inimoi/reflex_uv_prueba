@@ -5,9 +5,10 @@ from ..utils import utils
 
 from ..layouts.baselayout import base_layout
 from ..state.state import State
+from ..navigation.routes import Routes
 
 
-@rx.page("/",
+@rx.page(Routes.INDEX.value,
         title=utils.index_title,
         description=utils.index_description,
         meta=utils.index_meta)

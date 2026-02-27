@@ -31,3 +31,21 @@ autorizado_meta = [
     ]
 autorizado_meta.extend(_meta)
 
+#Página Login
+login_title = "Login"
+login_description = "Esta es la página de Login"
+login_meta = [
+    {"name": "og:title", "content": login_title},
+    {"name": "og:description", "content": login_description},
+    ]
+login_meta.extend(_meta)
+
+#Página Registro
+register_title = "Registro"
+register_description = "Esta es la página para registrarnos"
+register_meta = [
+    {"name": "og:title", "content": register_title},
+    {"name": "og:description", "content": register_description},
+    ]
+register_meta.extend(_meta)
+

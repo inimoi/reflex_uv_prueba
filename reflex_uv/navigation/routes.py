@@ -3,8 +3,9 @@ from enum import Enum
 class Routes(Enum):
 # Agrega tus rutas aquí
     INDEX = '/'
-    CONTACTO = '/contacto'
-    QUIENESSOMOS = '/quienessomos'
+    AUTORIZADO = '/autorizado'
+    LOGIN = '/auth/login'
+    REGISTER = '/auth/register'
 
-from enum import Enum
+
 

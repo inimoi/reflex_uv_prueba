@@ -4,6 +4,8 @@ from fastapi.security import HTTPAuthorizationCredentials
 from ...api.auth import Login
 from ...api.api import login
 from ...api.api import validate_token_endpoint
+from ...utils import utils
+from ...navigation.routes import Routes
 
 
 
@@ -57,7 +59,10 @@ class FormState(rx.State):
 
         
 
-@rx.page("/auth/login")
+@rx.page(Routes.LOGIN.value,
+        title=utils.login_title,
+        description=utils.login_description,
+        meta=utils.login_meta)
 def form_login():
     return rx.center(
         rx.vstack(

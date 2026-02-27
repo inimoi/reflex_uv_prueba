@@ -1,6 +1,9 @@
 import reflex as rx
 from ...api.api import register
 from ...api.auth import Register
+from ...utils import utils
+from ...navigation.routes import Routes
+
 
 
 class FormState(rx.State):
@@ -20,7 +23,10 @@ class FormState(rx.State):
         print("Function response:", respuesta)  
 
 
-@rx.page("/auth/register")
+@rx.page(Routes.REGISTER.value,
+        title=utils.register_title,
+        description=utils.register_description,
+        meta=utils.register_meta)
 def form_register():
     return rx.center(
         rx.vstack(

@@ -1,6 +1,7 @@
 import reflex as rx
 
 from ..pages.auth.login import FormState
+from ..navigation.routes import Routes
 
 def navbar_link(text: str, url: str) -> rx.Component:
     return rx.link(rx.text(text, size="4", weight="medium"), href=url)
@@ -21,9 +22,9 @@ def navbar_buttons() -> rx.Component:
                     align_items="center",
                 ),
                 rx.hstack(
-                    navbar_link("Home", "/#"),
+                    navbar_link("Home", Routes.INDEX.value),
                     navbar_link("About", "/#"),
-                    navbar_link("Autorizado", "/autorizado"),
+                    navbar_link("Autorizado", Routes.AUTORIZADO.value),
                     navbar_link("Contact", "/#"),
                     spacing="5",
                 ),
@@ -53,6 +54,7 @@ def navbar_buttons() -> rx.Component:
                     rx.menu.trigger(rx.icon("menu", size=30)),
                     rx.menu.content(
                         rx.menu.item("Home"),
+                        rx.menu.item("Autorizado"),
                         rx.menu.item("About"),
                         rx.menu.item("Pricing"),
                         rx.menu.item("Contact"),

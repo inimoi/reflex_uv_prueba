@@ -4,8 +4,9 @@ from ..layouts.protected.protected_routes import protected_page
 from ..pages.auth.login import FormState
 from ..layouts.baselayout import base_layout
 from ..utils import utils
+from ..navigation.routes import Routes
 
-@rx.page("/autorizado/", 
+@rx.page(Routes.AUTORIZADO.value, 
         title=utils.autorizado_title,
         description=utils.autorizado_description,
         meta=utils.autorizado_meta,
