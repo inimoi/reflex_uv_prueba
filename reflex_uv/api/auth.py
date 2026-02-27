@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import create_client, Client
 from pydantic import BaseModel, EmailStr
 import os
@@ -115,3 +115,50 @@ async def login_user(email: str, password: str) -> dict:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error: {error_message}")
 
+
+async def validate_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """
+    Valida un token usando Supabase Auth
+    """
+    token = credentials.credentials
+    try:
+        # Supabase valida el token automáticamente
+        user = supabase.auth.get_user(token)
+        
+        return {
+            "valid": True,
+            "user_id": user.user.id,
+            "email": user.user.email,
+            "user": user.user.model_dump()
+        }
+    
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Token inválido: {str(e)}"
+        )
+    
+
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """
+    Verificar el token de acceso y obtener el usuario actual
+    """
+    token = credentials.credentials
+    
+    try:
+        # Verificar el token con Supabase
+        user = supabase.auth.get_user(token)
+        
+        if user and user.user:
+            return user.user
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="No se pudo validar las credenciales"
+            )
+    
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token inválido o expirado"
+        )

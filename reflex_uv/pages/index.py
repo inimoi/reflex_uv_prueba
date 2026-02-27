@@ -1,16 +1,19 @@
 """Welcome to Reflex! This file outlines the steps to create a basic app."""
 
 import reflex as rx
+from ..utils import utils
 
-
-
+from ..layouts.baselayout import base_layout
 from ..state.state import State
 
 
-@rx.page("/")
-def index() -> rx.Component:
+@rx.page("/",
+        title=utils.index_title,
+        description=utils.index_description,
+        meta=utils.index_meta)
+def index() :
     # Welcome Page (Index)
-    return rx.container(
+    return base_layout(
         rx.color_mode.button(position="top-right"),
         rx.vstack(
             

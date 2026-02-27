@@ -1,6 +1,10 @@
 
 import reflex as rx
-from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi import FastAPI, status
+from fastapi import Depends
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from ..api.auth import validate_token
+
 
 from .auth import (
     Register,
@@ -12,7 +16,7 @@ from .auth import (
 
 fastapi_app = FastAPI(title="Reflex + FastAPI API", version="3.0.0")
 
-
+security = HTTPBearer()
 
 
 # ==================== ENDPOINTS - AUTENTICACIÓN ====================
@@ -70,3 +74,15 @@ async def login(credentials: Login):
             "user_metadata": result["user"].user_metadata
         }
     }
+
+@fastapi_app.post("/validate-token")
+async def validate_token_endpoint(
+    credentials: HTTPAuthorizationCredentials = Depends(security),):
+
+    credenciales = HTTPAuthorizationCredentials(scheme="Bearer", credentials=credentials.credentials)
+    result = await validate_token(credentials=credenciales)
+    
+    return result
+
+
+
