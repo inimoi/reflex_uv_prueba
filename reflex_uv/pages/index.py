@@ -8,10 +8,13 @@ from ..state.state import State
 from ..navigation.routes import Routes
 
 
+from .auth.login import LoginState
+
 @rx.page(Routes.INDEX.value,
         title=utils.index_title,
         description=utils.index_description,
-        meta=utils.index_meta)
+        meta=utils.index_meta,
+        on_load=LoginState.validate_token_app)
 def index() :
     # Welcome Page (Index)
     return base_layout(
@@ -24,5 +27,7 @@ def index() :
             spacing="5",
             justify="center",
             min_height="85vh",
+          
+            
         ),
     )

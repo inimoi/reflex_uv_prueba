@@ -11,7 +11,8 @@ from .auth import (
     register_user,
     Token,
     login_user,
-    Login
+    Login,
+    get_current_user
 )
 
 fastapi_app = FastAPI(title="Reflex + FastAPI API", version="3.0.0")
@@ -83,6 +84,19 @@ async def validate_token_endpoint(
     result = await validate_token(credentials=credenciales)
     
     return result
+
+
+@fastapi_app.get("/auth/me", tags=["Authentication"])
+async def get_profile_endpoint(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+):
+    """Devuelve el perfil del usuario autenticado."""
+    user = await get_current_user(credentials=credentials)
+    return {
+        "id": user.id,
+        "email": user.email,
+        "user_metadata": user.user_metadata,
+    }
 
 
 

@@ -6,13 +6,22 @@ from .pages.auth.register import form_register
 from .pages.auth.login import form_login    
 from .api.api import fastapi_app
 
+style = {
+    "background_image": "url('/background.png')",
+    "background_size": "cover",
+    "background_repeat": "no-repeat",
+    "background_attachment": "fixed",
+}
 
 
-app = rx.App(api_transformer=fastapi_app)
-app.add_page(index)
-app.add_page(autorizado)
-app.add_page(form_register) 
-app.add_page(form_login) 
+from .styles.styles import BASE_STYLE, STYLESHEETS
+
+app = rx.App(
+    style=BASE_STYLE,
+    stylesheets=STYLESHEETS,
+    api_transformer=fastapi_app
+)
+# No es necesario add_page si se usa el decorador @rx.page en los archivos de página.
 
 
 

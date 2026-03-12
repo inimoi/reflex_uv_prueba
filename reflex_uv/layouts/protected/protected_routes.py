@@ -1,5 +1,5 @@
 import reflex as rx
-from ...pages.auth.login import FormState
+from ...pages.auth.login import LoginState
 
 
 def protected_page(content: rx.Component) -> rx.Component:
@@ -10,7 +10,7 @@ def protected_page(content: rx.Component) -> rx.Component:
 
 
     return rx.cond(
-        (FormState.logged_in) | (FormState.is_valid),
+        (LoginState.logged_in),
         content,
         rx.vstack(
             rx.text("No autenticado, redirigiendo..."),

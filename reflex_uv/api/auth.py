@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import create_client, Client
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field, field_validator
 import os
 from dotenv import load_dotenv
 
@@ -19,12 +19,21 @@ security = HTTPBearer()
 
 class Register(BaseModel):
     email: EmailStr
-    password: str
-    name: str = None
+    password: str = Field(..., min_length=8)
+    name: str = Field(..., min_length=5)
+
+    @field_validator("password")
+    @classmethod
+    def password_complexity(cls, v: str) -> str:
+        if not any(char.isdigit() for char in v):
+            raise ValueError("La contraseña debe contener al menos un número")
+        if not any(char.isupper() for char in v):
+            raise ValueError("La contraseña debe contener al menos una letra mayúscula")
+        return v
 
 class Login(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(..., min_length=1)
 
 class Token(BaseModel):
     access_token: str
