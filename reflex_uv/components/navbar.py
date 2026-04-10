@@ -56,7 +56,7 @@ def navbar_buttons() -> rx.Component:
                 # Links Section
                 rx.hstack(
                     navbar_link("Inicio", Routes.INDEX.value),
-                    navbar_link("Explorar", "/#"),
+                    navbar_link("Contacto", Routes.CONTACTO.value),
                     navbar_link("Precios", "/#"),
                     navbar_link("Dashboard", Routes.AUTORIZADO.value),
                     spacing="6",

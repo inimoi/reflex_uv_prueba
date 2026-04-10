@@ -90,11 +90,18 @@ class LoginState(rx.State):
         yield rx.toast.info("Sesión cerrada")
         yield rx.redirect(Routes.LOGIN.value)
 
+    async def redirect_if_logged_in(self):
+        """Redirige a index si el usuario ya está autenticado."""
+        await self.validate_token_app()
+        if self.logged_in:
+            return rx.redirect(Routes.INDEX.value)
+
 
 @rx.page(Routes.LOGIN.value,
         title=utils.login_title,
         description=utils.login_description,
-        meta=utils.login_meta)
+        meta=utils.login_meta,
+        on_load=LoginState.redirect_if_logged_in)
 def form_login():
     return rx.center(
         rx.vstack(

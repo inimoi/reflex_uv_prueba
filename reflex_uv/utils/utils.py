@@ -49,3 +49,20 @@ register_meta = [
     ]
 register_meta.extend(_meta)
 
+#Página Contacto
+contacto_title = "Contacto"
+contacto_description = "Esta es la página de contacto"
+contacto_meta = [
+    {"name": "og:title", "content": contacto_title},
+    {"name": "og:description", "content": contacto_description},
+    ]
+contacto_meta.extend(_meta)
+
+#Página Upload
+upload_title = "Upload"
+upload_description = "Esta es la página de upload"
+upload_meta = [
+    {"name": "og:title", "content": upload_title},
+    {"name": "og:description", "content": upload_description},
+    ]
+upload_meta.extend(_meta)

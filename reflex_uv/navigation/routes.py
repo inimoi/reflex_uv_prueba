@@ -6,6 +6,8 @@ class Routes(Enum):
     AUTORIZADO = '/autorizado'
     LOGIN = '/auth/login'
     REGISTER = '/auth/register'
+    CONTACTO = '/contacto'
+    UPLOAD = '/upload'
 
 
 

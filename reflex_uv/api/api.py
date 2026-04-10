@@ -1,24 +1,19 @@
-
-import reflex as rx
-from fastapi import FastAPI, status
-from fastapi import Depends
+from fastapi import FastAPI, status, UploadFile, File, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from ..api.auth import validate_token
-
-
-from .auth import (
-    Register,
+from ..api.auth import (
+    validate_token,
     register_user,
-    Token,
     login_user,
+    get_current_user,
+    supabase,
+    Register,
     Login,
-    get_current_user
+    Token
 )
 
 fastapi_app = FastAPI(title="Reflex + FastAPI API", version="3.0.0")
 
 security = HTTPBearer()
-
 
 # ==================== ENDPOINTS - AUTENTICACIÓN ====================
 
@@ -97,6 +92,44 @@ async def get_profile_endpoint(
         "email": user.email,
         "user_metadata": user.user_metadata,
     }
+
+# ==================== ENDPOINTS - ARCHIVOS ====================
+
+@fastapi_app.post("/upload", tags=["Files"])
+async def upload_file(file: UploadFile = File(...)):
+    """
+    Subir un archivo a Supabase Storage
+    """
+    try:
+        file_content = await file.read()
+        file_name = file.filename
+        content_type = file.content_type
+
+        # Subir a Supabase Storage (bucket "photos")
+        response = supabase.storage.from_("fotos").upload(
+            file_name,
+            file_content,
+            file_options={"content-type": content_type}
+        )
+        
+        return {
+            "message": f"Archivo '{file_name}' subido con éxito",
+            "file_name": file_name,
+            "success": True
+        }
+    except Exception as e:
+        error_msg = str(e)
+        if "Duplicate" in error_msg or "already exists" in error_msg:
+            return {
+                "message": f"El archivo '{file.filename}' ya existe",
+                "success": False,
+                "error": "duplicate"
+            }
+        return {
+            "message": f"Error al subir el archivo: {error_msg}",
+            "success": False,
+            "error": error_msg
+        }
 
 
 

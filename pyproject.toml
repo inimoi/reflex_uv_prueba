@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.129.0",
+    "npx>=0.1.6",
     "pydantic[email]>=2.12.5",
     "python-dotenv>=1.2.1",
     "reflex>=0.8.26",

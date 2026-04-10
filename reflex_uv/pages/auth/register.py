@@ -4,6 +4,7 @@ from ...api.api import register
 from ...api.auth import Register
 from ...utils import utils
 from ...navigation.routes import Routes
+from .login import LoginState
 
 class RegisterState(rx.State):
     error_message: str = ""
@@ -50,7 +51,8 @@ class RegisterState(rx.State):
 @rx.page(Routes.REGISTER.value,
         title=utils.register_title,
         description=utils.register_description,
-        meta=utils.register_meta)
+        meta=utils.register_meta,
+        on_load=LoginState.redirect_if_logged_in)
 def form_register():
     return rx.center(
         rx.vstack(
