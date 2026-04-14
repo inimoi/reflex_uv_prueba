@@ -1,3 +1,8 @@
+
+networks:
+  proxy_caddy:
+    external: true
+
 services:
   backend:
     build:
@@ -6,6 +11,8 @@ services:
      - 8000:8000
     depends_on:
      - redis
+    networks:
+      - proxy_caddy
   frontend:
     build:
       dockerfile: web.Dockerfile
@@ -13,5 +20,9 @@ services:
       - 3000:80
     depends_on:
       - backend
+    networks:
+      - proxy_caddy
   redis:
     image: redis
+    networks:
+      - proxy_caddy
