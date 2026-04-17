@@ -106,7 +106,7 @@ async def upload_file(file: UploadFile = File(...)):
         content_type = file.content_type
 
         # Subir a Supabase Storage (bucket "photos")
-        response = supabase.storage.from_("fotos").upload(
+        response = supabase.storage.from_("photos").upload(
             file_name,
             file_content,
             file_options={"content-type": content_type}
